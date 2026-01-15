@@ -65,7 +65,13 @@ const ComplaintForm = () => {
   };
 
   const analyzeComplaintPriority = async (complaintData) => {
-    const GEMINI_API_KEY = 'AIzaSyC0w_7dClACJm6hlgBJW-gkIbezGvtm0uA';
+    const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+    console.log('GEMINI_API_KEY:', GEMINI_API_KEY);
+    
+    if (!GEMINI_API_KEY) {
+      throw new Error('Missing GEMINI API key. Set REACT_APP_GEMINI_API_KEY in .env and restart the dev server.');
+    }
+    
     const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const prompt = `Analyze the following water/health complaint and determine its priority level (HIGH, MEDIUM, or LOW).
