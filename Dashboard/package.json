@@ -27,11 +27,12 @@
     "papaparse": "^5.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-icons": "^4.3.1",
+    "react-icons": "^4.12.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.1",
-    "recharts": "^2.8.0"
+    "recharts": "^2.8.0",
+    "router-dom": "^3.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

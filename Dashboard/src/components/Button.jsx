@@ -1,7 +1,6 @@
-
 import { useStateContext } from '../contexts/ContextProvider';
 
-const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, width, onClick, disabled, className }) => {
+const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, width, onClick, disabled, className, type = "button" }) => {
   const { setIsClicked, initialState } = useStateContext();
 
   // Map size to actual Tailwind classes
@@ -29,7 +28,7 @@ const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, 
 
   return (
     <button
-      type="button"
+      type={type}
       onClick={onClick || (() => setIsClicked(initialState))}
       style={{ backgroundColor: bgColor, color, borderRadius }}
       className={`${getSizeClass(size)} p-3 ${getWidthClass(width)} hover:drop-shadow-xl ${className || ''}`}

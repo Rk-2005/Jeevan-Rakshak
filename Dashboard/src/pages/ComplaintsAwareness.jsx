@@ -7,7 +7,7 @@ import { FaExclamationCircle, FaLightbulb, FaFileAlt, FaMapMarkerAlt, FaPhone, F
 const ComplaintsAwareness = () => {
   const { t } = useLanguage();
   const { currentColor } = useStateContext();
-  const [activeTab, setActiveTab] = useState('complaints');
+  const [activeTab, setActiveTab] = useState('awareness');
   const [complaintForm, setComplaintForm] = useState({
     type: '',
     description: '',
@@ -144,17 +144,7 @@ const ComplaintsAwareness = () => {
         {/* Tab Navigation */}
         <div className="flex justify-center mb-8">
           <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
-            <button
-              onClick={() => setActiveTab('complaints')}
-              className={`px-6 py-3 rounded-md font-medium transition-all ${
-                activeTab === 'complaints'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-              }`}
-            >
-              <FaFileAlt className="inline-block mr-2" />
-              Submit Complaint
-            </button>
+         
             <button
               onClick={() => setActiveTab('awareness')}
               className={`px-6 py-3 rounded-md font-medium transition-all ${
@@ -170,169 +160,7 @@ const ComplaintsAwareness = () => {
         </div>
 
         {/* Complaints Tab */}
-        {activeTab === 'complaints' && (
-          <div className="bg-white dark:bg-secondary-dark-bg rounded-xl shadow-lg p-6 md:p-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
-              Submit a Complaint
-            </h2>
-            
-            <form onSubmit={handleComplaintSubmit} className="space-y-6">
-              {/* Complaint Type */}
-              <div>
-                <label htmlFor="type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Complaint Type *
-                </label>
-                <select
-                  id="type"
-                  name="type"
-                  value={complaintForm.type}
-                  onChange={handleComplaintInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                >
-                  <option value="">Select complaint type</option>
-                  {complaintTypes.map(type => (
-                    <option key={type.value} value={type.value}>
-                      {type.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Description */}
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Description *
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={complaintForm.description}
-                  onChange={handleComplaintInputChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  placeholder="Please provide detailed description of the issue..."
-                />
-              </div>
-
-              {/* Location and Priority */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    <FaMapMarkerAlt className="inline-block mr-2" />
-                    Location *
-                  </label>
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={complaintForm.location}
-                    onChange={handleComplaintInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter location details"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="priority" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Priority Level
-                  </label>
-                  <select
-                    id="priority"
-                    name="priority"
-                    value={complaintForm.priority}
-                    onChange={handleComplaintInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  >
-                    {priorities.map(priority => (
-                      <option key={priority.value} value={priority.value}>
-                        {priority.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Contact Information */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Your Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="contactName"
-                    name="contactName"
-                    value={complaintForm.contactName}
-                    onChange={handleComplaintInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="contactPhone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    <FaPhone className="inline-block mr-2" />
-                    Phone Number *
-                  </label>
-                  <input
-                    type="tel"
-                    id="contactPhone"
-                    name="contactPhone"
-                    value={complaintForm.contactPhone}
-                    onChange={handleComplaintInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter phone number"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    <FaEnvelope className="inline-block mr-2" />
-                    Email (Optional)
-                  </label>
-                  <input
-                    type="email"
-                    id="contactEmail"
-                    name="contactEmail"
-                    value={complaintForm.contactEmail}
-                    onChange={handleComplaintInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter email address"
-                  />
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <div className="flex justify-center">
-                <Button
-                  type="submit"
-                  color="white"
-                  bgColor={currentColor}
-                  text={isSubmitting ? 'Submitting...' : 'Submit Complaint'}
-                  borderRadius="10px"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="px-8 py-3"
-                />
-              </div>
-
-              {/* Status Messages */}
-              {submitStatus === 'success' && (
-                <div className="text-center p-4 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-lg">
-                  <FaCheckCircle className="inline-block mr-2" />
-                  Complaint submitted successfully! We will contact you soon.
-                </div>
-              )}
-              {submitStatus === 'error' && (
-                <div className="text-center p-4 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg">
-                  Error submitting complaint. Please try again.
-                </div>
-              )}
-            </form>
-          </div>
-        )}
+       
 
         {/* Awareness Tab */}
         {activeTab === 'awareness' && (

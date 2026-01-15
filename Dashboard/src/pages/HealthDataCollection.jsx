@@ -3,6 +3,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useStateContext } from '../contexts/ContextProvider';
 import { Button } from '../components';
 import { FaUserMd, FaVirus, FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa';
+import { ref, push } from 'firebase/database';
+import { database } from '../firebaseConfig';
 
 const HealthDataCollection = () => {
   const { t } = useLanguage();
@@ -79,29 +81,90 @@ const HealthDataCollection = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const userId = localStorage.getItem('userId');
+      const userEmail = localStorage.getItem('userEmail');
       
-      // Here you would typically send data to your backend
-      console.log('Health data submitted:', formData);
+      // Validation
+      if (!userId) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        console.error('User not authenticated');
+        return;
+      }
+
+      if (!formData.villageName.trim()) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        console.error('Village name is required');
+        return;
+      }
+
+      if (!formData.patientAgeGroup) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        console.error('Patient age group is required');
+        return;
+      }
+
+      if (formData.reportedSymptoms.length === 0) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        console.error('At least one symptom must be selected');
+        return;
+      }
+
+      if (!formData.reporterName.trim()) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        console.error('Reporter name is required');
+        return;
+      }
+
+      if (!formData.reporterContact.trim()) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        console.error('Contact number is required');
+        return;
+      }
+
+      // Prepare data for Firebase
+      const healthReportData = {
+        ...formData,
+        userId,
+        userEmail,
+        submittedAt: new Date().toISOString(),
+        submittedDate: new Date().toLocaleDateString(),
+      };
+
+      console.log('Submitting health data:', healthReportData);
+
+      // Save to Firebase
+      const healthReportsRef = ref(database, 'healthReports');
+      const pushResult = await push(healthReportsRef, healthReportData);
+      
+      console.log('Health data submitted successfully with ID:', pushResult.key);
       
       setSubmitStatus('success');
-      setFormData({
-        villageName: '',
-        patientAgeGroup: '',
-        reportedSymptoms: [],
-        confirmedDisease: '',
-        reporterName: '',
-        reporterContact: '',
-        reportDate: new Date().toISOString().split('T')[0],
-        additionalNotes: ''
-      });
+      
+      // Reset form
+      setTimeout(() => {
+        setFormData({
+          villageName: '',
+          patientAgeGroup: '',
+          reportedSymptoms: [],
+          confirmedDisease: '',
+          reporterName: '',
+          reporterContact: '',
+          reportDate: new Date().toISOString().split('T')[0],
+          additionalNotes: ''
+        });
+        setSubmitStatus(null);
+      }, 2000);
     } catch (error) {
       setSubmitStatus('error');
-      console.error('Error submitting health data:', error);
+      console.error('Error submitting health data:', error.message, error);
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 
@@ -287,13 +350,14 @@ const HealthDataCollection = () => {
 
             {/* Status Messages */}
             {submitStatus === 'success' && (
-              <div className="text-center p-4 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-lg">
+              <div className="text-center p-4 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-lg animate-pulse">
                 ✓ Health data submitted successfully!
               </div>
             )}
             {submitStatus === 'error' && (
-              <div className="text-center p-4 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg">
-                ✗ Error submitting data. Please try again.
+              <div className="text-center p-4 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-lg border border-red-300 dark:border-red-700">
+                ✗ Error submitting data. Please check all required fields and try again.
+                <p className="text-xs mt-2 opacity-75">Check browser console for details.</p>
               </div>
             )}
           </form>

@@ -129,7 +129,7 @@ const ComplainsData = () => {
                     <span className="text-gray-400 italic">No image</span>
                   )}
                 </td>
-                <td className="py-3 px-4">{complaint.location}</td>
+                <td className="py-3 px-4">{complaint.zone} - {complaint.address}</td>
                 <td className="py-3 px-4">{complaint.type}</td>
                 <td className="py-3 px-4 text-center">
                   {getPriorityBadge(complaint.priority)}

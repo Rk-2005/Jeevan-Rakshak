@@ -15,7 +15,7 @@ const Dashboard = () => {
   const { currentColor } = useStateContext();
   const { t } = useLanguage();
   const [waterSavedValue, setWaterSavedValue] = useState('');
-  const [activeSensors, setActiveSensors] = useState('38');
+  const [activeSensors, setActiveSensors] = useState('39');
   const [fraudsDetected, setFraudsDetected] = useState('1');
   const [leaksDetected, setLeaksDetected] = useState('7');
   const [reportedComplaints, setReportedComplaints] = useState('4');
@@ -25,6 +25,11 @@ const Dashboard = () => {
     timePeriod: '30days',
   });
   const [showFilters, setShowFilters] = useState(false);
+  
+  // Get user info from localStorage
+  const userName = localStorage.getItem('userName') || 'User';
+  const userZone = localStorage.getItem('userZone') || 'Dharampeth (Zone 1)';
+  const userRole = localStorage.getItem('userRole') || 'user';
 
   // Mock data for enhanced dashboard
   const kpiData = {
@@ -138,21 +143,52 @@ const Dashboard = () => {
   return (
     <div className="mt-8 px-4 md:px-6">
       <TestComponent />
+      
+      {/* Welcome Banner */}
+      <div className="mb-8 p-6 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 dark:from-blue-600 dark:to-cyan-600 shadow-lg">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+              {userRole === 'admin' ? t('welcomeAdmin') : userRole === 'asha-worker' ? t('welcomeAshaWorker') : t('welcomeUser')}
+            </h2>
+            <div className="flex items-center gap-2">
+              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white font-semibold text-sm">
+                📍 {userZone}
+              </span>
+              <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-white font-semibold text-sm capitalize">
+                {userRole === 'admin' ? `👑 ${t('administrator')}` : userRole === 'asha-worker' ? `🏥 ${t('ashaWorker')}` : `👤 ${t('user')}`}
+              </span>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="text-white text-right">
+              <p className="text-sm opacity-90">{t('currentDate')}</p>
+              <p className="text-lg font-semibold">{new Date().toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+              })}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       {/* Header with Filters and Export */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-1">
         <div className='mb-10 pb-10'>
           <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">
-            Community Health Monitoring Dashboard
+            {t('communityHealthMonitoringDashboard')}
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Real-time monitoring and analysis of water quality and health data
+            {t('realtimeMonitoring')}
           </p>
         </div>
         <div className="flex items-center space-x-4   mb-10 pb-10">
           <Button
             color="white"
             bgColor={currentColor}
-            text="Filters"
+            text={t('filter')}
             borderRadius="8px"
             size="md"
             icon={<FaFilter />}
@@ -162,25 +198,25 @@ const Dashboard = () => {
             <Button
               color="white"
               bgColor={currentColor}
-              text="Export"
+              text={t('export')}
               borderRadius="8px"
               size="md"
               icon={<FaDownload />}
             />
             <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-secondary-dark-bg rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10 hidden group-hover:block">
-              <buttons
+              <button
                 type="button"
                 onClick={() => handleExport('pdf')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-t-lg"
               >
-                Export as PDF
-              </buttons>
+                {t('exportAsPDF')}
+              </button>
               <button
                 type="button"
                 onClick={() => handleExport('excel')}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
               >
-                Export as Excel
+                {t('exportAsExcel')}
               </button>
             </div>
           </div>
@@ -190,38 +226,38 @@ const Dashboard = () => {
       {/* Filters Panel */}
       {showFilters && (
         <div className="bg-white dark:bg-secondary-dark-bg rounded-xl shadow-lg p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Filters</h3>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">{t('filter')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Village
+                {t('villageA').replace(' A', '')}
               </label>
               <select
                 value={filters.village}
                 onChange={(e) => handleFilterChange('village', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
-                <option value="all">All Villages</option>
-                <option value="village-a">Village A</option>
-                <option value="village-b">Village B</option>
-                <option value="village-c">Village C</option>
-                <option value="village-d">Village D</option>
-                <option value="village-e">Village E</option>
+                <option value="all">{t('allVillages')}</option>
+                <option value="village-a">{t('villageA')}</option>
+                <option value="village-b">{t('villageB')}</option>
+                <option value="village-c">{t('villageC')}</option>
+                <option value="village-d">{t('villageD')}</option>
+                <option value="village-e">{t('villageE')}</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                District
+                {t('allDistricts').replace('सभी ', '').replace('All ', '')}
               </label>
               <select
                 value={filters.district}
                 onChange={(e) => handleFilterChange('district', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
-                <option value="all">All Districts</option>
-                <option value="district-1">District 1</option>
-                <option value="district-2">District 2</option>
-                <option value="district-3">District 3</option>
+                <option value="all">{t('allDistricts')}</option>
+                <option value="district-1">{t('district1')}</option>
+                <option value="district-2">{t('district2')}</option>
+                <option value="district-3">{t('district3')}</option>
               </select>
             </div>
             <div>
@@ -233,10 +269,10 @@ const Dashboard = () => {
                 onChange={(e) => handleFilterChange('timePeriod', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
-                <option value="7days">Last 7 days</option>
-                <option value="30days">Last 30 days</option>
-                <option value="90days">Last 90 days</option>
-                <option value="1year">Last year</option>
+                <option value="7days">{t('last7days')}</option>
+                <option value="30days">{t('last30days')}</option>
+                <option value="90days">{t('last90days')}</option>
+                <option value="1year">{t('lastYear')}</option>
               </select>
             </div>
           </div>
@@ -253,7 +289,7 @@ const Dashboard = () => {
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-500">{t('waterSaved')}</p>
-              <p className="text-2xl font-semibold">{waterSavedValue} liters</p>
+              <p className="text-2xl font-semibold">{waterSavedValue} {t('liters')}</p>
             </div>
             <button
               type="button"
@@ -272,7 +308,7 @@ const Dashboard = () => {
               size="md"
               onClick={download}
             />
-            {show && <div className='text-blue-400 font-bold text-xl mt-2 ml-1'>Coming soon</div>}
+            {show && <div className='text-blue-400 font-bold text-xl mt-2 ml-1'>{t('comingSoon')}</div>}
           </div>
         </div>
 
@@ -303,7 +339,7 @@ const Dashboard = () => {
       {/* Power BI Section */}
       <div className="mt-8">
         <div className="bg-blue-50 text-blue-800 px-4 py-3 rounded-lg mb-4 border-l-4 border-blue-500 font-medium text-center">
-          Live Detections are on! For help with any technical issue, please contact us at 8265096155
+          {t('liveDetections')}
         </div>
         <div className="rounded-xl overflow-hidden shadow-lg">
           <iframe
@@ -329,7 +365,7 @@ const Dashboard = () => {
               <p className="text-gray-200 mt-2">{t('monthlyStatistics')}</p>
             </div>
             <div className="mt-4 md:mt-0">
-              <p className="text-2xl text-white font-semibold">930 liters</p>
+              <p className="text-2xl text-white font-semibold">930 {t('liters')}</p>
               <p className="text-gray-200">{t('monthlyDetects')}</p>
             </div>
           </div>
@@ -376,7 +412,7 @@ const Dashboard = () => {
         {/* Water Quality Trend Chart */}
         <div className="bg-white dark:bg-secondary-dark-bg rounded-xl shadow-lg p-6">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-            Water Quality Trend
+            {t('waterQualityTrend')}
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={waterQualityTrend}>
@@ -393,7 +429,7 @@ const Dashboard = () => {
         {/* Complaint Status Distribution */}
         <div className="bg-white dark:bg-secondary-dark-bg rounded-xl shadow-lg p-6">
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-            Complaint Status Distribution
+            {t('complaintStatusDistribution')}
           </h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -420,17 +456,17 @@ const Dashboard = () => {
       {/* Village Performance Table */}
       <div className="mt-8 bg-white dark:bg-secondary-dark-bg rounded-xl shadow-lg p-6">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-          Village Performance Overview
+          {t('villagePerformanceOverview')}
         </h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-200 dark:border-gray-700">
                 <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Village</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Health Cases</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Water Quality</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Risk Level</th>
-                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">Status</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">{t('healthCases')}</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">{t('waterQuality')}</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">{t('riskLevel')}</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-700 dark:text-gray-300">{t('status')}</th>
               </tr>
             </thead>
             <tbody>
@@ -447,7 +483,7 @@ const Dashboard = () => {
                       };
                       return (
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getWaterQualityClass(village.waterQuality)}`}>
-                          {village.waterQuality}
+                          {village.waterQuality === 'Good' ? t('good') : village.waterQuality === 'Fair' ? t('fair') : t('poor')}
                         </span>
                       );
                     })()}
@@ -461,7 +497,7 @@ const Dashboard = () => {
                       };
                       return (
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getRiskClass(village.risk)}`}>
-                          {village.risk}
+                          {village.risk === 'Low' ? t('low') : village.risk === 'Medium' ? t('medium') : t('high')}
                         </span>
                       );
                     })()}
@@ -474,9 +510,9 @@ const Dashboard = () => {
                         return 'bg-red-100 text-red-800';
                       };
                       const getStatusText = (risk) => {
-                        if (risk === 'Low') return '✓ Safe';
-                        if (risk === 'Medium') return '⚠ Monitor';
-                        return '🚨 Alert';
+                        if (risk === 'Low') return `✓ ${t('safe')}`;
+                        if (risk === 'Medium') return `⚠ ${t('monitor')}`;
+                        return `🚨 ${t('alert')}`;
                       };
                       return (
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusClass(village.risk)}`}>

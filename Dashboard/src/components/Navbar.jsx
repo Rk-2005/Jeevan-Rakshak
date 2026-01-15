@@ -60,6 +60,9 @@ const Navbar = () => {
   }, [screenSize]);
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
+  
+  const userName = localStorage.getItem('userName') || 'User';
+  const userZone = localStorage.getItem('userZone') || '';
 
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative border-b border-gray-100 dark:border-gray-700/50">
@@ -91,6 +94,10 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg transition-colors"
             onClick={() => handleClick('userProfile')}
           >
+            <div className="hidden md:flex flex-col items-end mr-2">
+              <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{userName}</p>
+              {userZone && <p className="text-xs text-gray-500 dark:text-gray-400">{userZone}</p>}
+            </div>
             <img
               className="avatar rounded-full w-10 h-10"
               src={avatar}

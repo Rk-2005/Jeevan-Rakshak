@@ -8,6 +8,17 @@ import avatar from '../data/avatar.png';
 
 const UserProfile = () => {
   const { currentColor } = useStateContext();
+  
+  const userName = localStorage.getItem('userName') || 'User';
+  const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+  const userRole = localStorage.getItem('userRole') || 'user';
+  const userZone = localStorage.getItem('userZone') || '';
+  
+  const getRoleDisplay = (role) => {
+    if (role === 'admin') return 'Administrator';
+    if (role === 'asha-worker') return 'ASHA Worker';
+    return 'User';
+  };
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -28,9 +39,10 @@ const UserProfile = () => {
           alt="user-profile"
         />
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200">Ritesh Kriplani </p>
-          <p className="text-gray-500 text-sm dark:text-gray-400">  Administrator   </p>
-          <p className="text-gray-500 text-sm font-semibold dark:text-gray-400"> kriplani@JalRakshak.com </p>
+          <p className="font-semibold text-xl dark:text-gray-200">{userName}</p>
+          <p className="text-gray-500 text-sm dark:text-gray-400">{getRoleDisplay(userRole)}</p>
+          {userZone && <p className="text-gray-600 text-sm font-semibold dark:text-gray-300">{userZone}</p>}
+          <p className="text-gray-500 text-sm dark:text-gray-400 mt-1">{userEmail}</p>
         </div>
       </div>
       <div>

@@ -17,4 +17,15 @@ export { default as HealthDataCollection } from './HealthDataCollection';
 export { default as OutbreakRisk } from './OutbreakRisk';
 export { default as WaterQualitySensors } from './WaterQualitySensors';
 export { default as ComplaintsAwareness } from './ComplaintsAwareness';
-
+export { default as ComplaintForm } from './ComplaintForm';
+export { default as SubmittedComplaints } from './SubmittedComplaints';
+export { default as Login } from './Login';
+export { default as MyComplaints } from './MyComplaints';
+export { default as AdminDashboard } from './AdminDashboard';
+export { default as SubmittedHealthReports } from './SubmittedHealthReports';
+export { default as PortableDeviceGuide } from './PortableDeviceGuide';
+export { default as CollectedHealthData } from './CollectedHealthData';
+export { default as UserDashboard } from './UserDashboard';
+export { default as AshaWorkerDashboard } from './AshaWorkerDashboard';
+export { default as CityAdminDashboard } from './CityAdminDashboard';
+export { default as ZoneAdminPerformance } from './ZoneAdminPerformance';

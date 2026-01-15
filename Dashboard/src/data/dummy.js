@@ -475,10 +475,22 @@ export const links = [
       {
         name: 'Dashboard',
         icon: <FiShoppingBag />,
+        role: 'admin',
+      },
+      {
+        name: 'user-dashboard',
+        icon: <FiShoppingBag />,
+        role: 'user',
+      },
+      {
+        name: 'asha-dashboard',
+        icon: <FiShoppingBag />,
+        role: 'asha-worker',
       },
       {
         name: 'Water-Quality',
         icon: <FiShoppingCart />,
+        role: 'admin',
       },
     ],
   },
@@ -488,14 +500,32 @@ export const links = [
       {
         name: 'health-data',
         icon: <MdOutlineSupervisorAccount />,
+        role: 'asha-worker',
+      },
+      {
+        name: 'submitted-health-reports',
+        icon: <FiBarChart />,
+        role: 'asha-worker',
+      },
+      {
+        name: 'portable-device-guide',
+        icon: <BsBoxSeam />,
+        role: 'asha-worker',
+      },
+      {
+        name: 'collected-health-data',
+        icon: <FiBarChart />,
+        role: 'admin',
       },
       {
         name: 'outbreak-risk',
         icon: <FiBarChart />,
+        role: 'admin',
       },
       {
         name: 'water-sensors',
         icon: <BsBoxSeam />,
+        role: 'admin',
       },
     ],
   },
@@ -503,13 +533,34 @@ export const links = [
     title: 'Community',
     links: [
       {
-        name: 'complaints-awareness',
-        icon: <RiContactsLine />,
+        name: 'submit-complaint',
+        icon: <BsChatLeft />,
       },
       {
-        name: 'complains-data',
-        icon: <RiContactsLine />,
+        name: 'my-complaints',
+        icon: <IoMdContacts />,
       },
+      {
+        name: 'view-complaints',
+        icon: <BsBoxSeam />,
+      },
+      {
+        name: 'complaints-awareness',
+        icon: <RiContactsLine />,
+      }
+    ],
+  },
+  {
+    title: 'Administration',
+    links: [
+      {
+        name: 'complaint-management',
+        icon: <BsShield />,
+      },
+      {
+        name: 'login',
+        icon: <MdOutlineSupervisorAccount />,
+      }
     ],
   },
   {
