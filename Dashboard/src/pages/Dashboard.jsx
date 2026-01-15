@@ -391,7 +391,7 @@ const Dashboard = () => {
           />
           <div className="mt-6 flex-1 flex flex-col">
             <p className="font-semibold text-lg">{t('downloadApp')}</p>
-            <p className="text-gray-500 text-sm">By Team Jeevan-Rakshak</p>
+            <p className="text-gray-500 text-sm">By Team Jal-Rakshak</p>
             <p className="mt-4 text-gray-600 dark:text-gray-300 text-sm flex-1">
               {t('appDescription')}
             </p>
