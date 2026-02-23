@@ -3,6 +3,7 @@ import { ref, query, orderByChild, equalTo, onValue } from 'firebase/database';
 import { database } from '../firebaseConfig';
 import { useStateContext } from '../contexts/ContextProvider';
 import { FaClipboardList, FaCheckCircle, FaClock, FaExclamationTriangle, FaTint } from 'react-icons/fa';
+import HouseholdWaterAnalytics from '../components/HouseholdWaterAnalytics';
 
 const UserDashboard = () => {
   const { currentColor } = useStateContext();
@@ -157,6 +158,9 @@ const UserDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Household Water Analytics */}
+      <HouseholdWaterAnalytics />
 
       {/* Recent Complaints */}
       <div className="bg-white dark:bg-secondary-dark-bg rounded-xl shadow-lg p-6 mb-8">
